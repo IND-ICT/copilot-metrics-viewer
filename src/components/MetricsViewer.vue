@@ -1,16 +1,16 @@
 <template>
   <div>
-    <div class="tiles-container">      
-      <!-- Acceptance Rate Tile -->  
+    <div class="tiles-container">
+      <!-- Acceptance Rate Tile -->
       <v-card elevation="4" color="white" variant="elevated" class="mx-auto my-3" style="width: 300px; height: 175px;">
-          <v-card-item>
-            <div>
-              <div class="text-overline mb-1" style="visibility: hidden;">filler</div>
-              <div class="text-h6 mb-1">Acceptance Rate Average</div>
-              <div class="text-caption">
-                Over the last 28 days
-              </div>
-              <p>{{ acceptanceRateAverage.toFixed(2) }}%</p>
+        <v-card-item>
+          <div>
+            <div class="text-overline mb-1" style="visibility: hidden;">filler</div>
+            <div class="text-h6 mb-1">Acceptance Rate Average</div>
+            <div class="text-caption">
+              Over the last 28 days
+            </div>
+            <p>{{ acceptanceRateAverage.toFixed(2) }}%</p>
           </div>
         </v-card-item>
       </v-card>
@@ -59,16 +59,16 @@
 
       <v-container style="min-height: 300px;" class="px-4 elevation-2">
         <h2>Acceptance rate (%)</h2>
-      <Bar :data="acceptanceRateChartData" :options="chartOptions" />
+        <Bar :data="acceptanceRateChartData" :options="chartOptions" />
 
-      <h2>Total Suggestions Count | Total Acceptances Count</h2>
-      <Line :data="totalSuggestionsAndAcceptanceChartData" :options="chartOptions" />
+        <h2>Total Suggestions Count | Total Acceptances Count</h2>
+        <Line :data="totalSuggestionsAndAcceptanceChartData" :options="chartOptions" />
 
-      <h2>Total Lines Suggested | Total Lines Accepted</h2>
-      <Line :data="chartData" :options="chartOptions" />
+        <h2>Total Lines Suggested | Total Lines Accepted</h2>
+        <Line :data="chartData" :options="chartOptions" />
 
-      <h2>Total Active Users</h2>
-      <Bar :data="totalActiveUsersChartData" :options="totalActiveUsersChartOptions" />
+        <h2>Total Active Users</h2>
+        <Bar :data="totalActiveUsersChartData" :options="totalActiveUsersChartOptions" />
 
       </v-container>
     </v-main>
@@ -89,14 +89,15 @@ import {
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler
 } from 'chart.js'
 
-import { Line } from 'vue-chartjs'
-import { Bar } from 'vue-chartjs'
+import { Line, Bar } from 'vue-chartjs'
+import createLinearGradient from '../plugins/chartUtils';
 
 ChartJS.register(
-  ArcElement, 
+  ArcElement,
   CategoryScale,
   LinearScale,
   BarElement,
@@ -104,37 +105,38 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler
 )
 
 
 export default defineComponent({
   name: 'MetricsViewer',
   props: {
-        metrics: {
-            type: Object,
-            required: true
-        }
-    },
+    metrics: {
+      type: Object,
+      required: true
+    }
+  },
   components: {
     Line,
     Bar
   }
   ,
-  data () {
+  data() {
     return {
-      data : {
+      data: {
         labels: ['VueJs', 'EmberJs', 'ReactJs', 'AngularJs'],
         datasets: [
           {
-        backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16'],
-        data: [40, 20, 80, 10]
-        }
+            backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16'],
+            data: [40, 20, 80, 10]
+          }
         ]
       },
-      options : {
+      options: {
         responsive: true,
-      maintainAspectRatio: false
+        maintainAspectRatio: false
       }
     }
   },
@@ -154,9 +156,9 @@ export default defineComponent({
 
     //Total Lines Suggested | Total Lines Accepted
     const chartData = ref<{ labels: string[]; datasets: any[] }>({ labels: [], datasets: [] });
-    
+
     //Total Active Users
-    const totalActiveUsersChartData = ref<{ labels: string[]; datasets: any[] }>({ labels: [], datasets: [] });  
+    const totalActiveUsersChartData = ref<{ labels: string[]; datasets: any[] }>({ labels: [], datasets: [] });
 
     // Create an empty map to store the languages.
     const languages = new Map<string, Language>();
@@ -166,6 +168,19 @@ export default defineComponent({
       maintainAspectRatio: true,
       height: 300,
       width: 300,
+      scales: {
+        y: {
+          // beginAtZero: true,
+          grid: {
+            display: false
+          },
+        },
+        x: {
+          grid: {
+            display: false
+          }
+        }
+      },
       layout: {
         padding: {
           left: 150,
@@ -182,8 +197,16 @@ export default defineComponent({
       scales: {
         y: {
           beginAtZero: true,
+          grid: {
+            display: false
+          },
           ticks: {
             stepSize: 1
+          }
+        },
+        x: {
+          grid: {
+            display: false
           }
         }
       },
@@ -217,17 +240,37 @@ export default defineComponent({
         {
           label: 'Total Suggestions',
           data: cumulativeSuggestionsData,
+          /* fill: true,
+          // backgroundColor: (context: any) => createLinearGradient(context, '#4BC0C0', '#9787FF'),
+          backgroundColor: '#9787FF',
+          borderColor: '#4BC0C0',
+          pointBackgroundColor: '#4BC0C0',
+          pointBorderColor: '#4BC0C0',
+          lineTension: 0.2,
+          fillOpacity: 0.5, */
+          fill: true,
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          borderColor: 'rgba(75, 192, 192, 1)'
-
+          // backgroundColor: (context: any) => createLinearGradient(context, '#4BC0C0', '#9787FF'),
+          borderColor: 'rgba(75, 192, 192, 1)',
+          lineTension: 0.2,
         },
         {
           label: 'Total Acceptance',
           data: cumulativeAcceptancesData,
+          /* fill: true,
+          // backgroundColor: (context: any) => createLinearGradient(context, '#9966FF', '#FF8787'),
+          backgroundColor: '#FF8787',
+          borderColor: '#9966FF',
+          pointBackgroundColor: '#9966FF',
+          pointBorderColor: '#9966FF',
+          lineTension: 0.2,
+          fillOpacity: 0.5, */
+          fill: true,
           backgroundColor: 'rgba(153, 102, 255, 0.2)',
-          borderColor: 'rgba(153, 102, 255, 1)'
+          // backgroundColor: (context: any) => createLinearGradient(context, '#9966FF', '#FF8787'),
+          borderColor: 'rgba(153, 102, 255, 1)',
+          lineTension: 0.2,
         },
-        
       ]
     };
 
@@ -244,15 +287,18 @@ export default defineComponent({
         {
           label: 'Total Lines Suggested',
           data: data.map((m: Metrics) => m.total_lines_suggested),
+          fill: true,
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          borderColor: 'rgba(75, 192, 192, 1)'
-
+          borderColor: 'rgba(75, 192, 192, 1)',
+          lineTension: 0.2,
         },
         {
           label: 'Total Lines Accepted',
           data: cumulativeLOCAcceptedData,
+          fill: true,
           backgroundColor: 'rgba(153, 102, 255, 0.2)',
-          borderColor: 'rgba(153, 102, 255, 1)'
+          borderColor: 'rgba(153, 102, 255, 1)',
+          lineTension: 0.2,
         }
       ]
     };
@@ -272,9 +318,13 @@ export default defineComponent({
           type: 'line', // This makes the dataset a line in the chart
           label: 'Acceptance Rate',
           data: acceptanceRates,
-          backgroundColor: 'rgba(173, 216, 230, 0.2)', // light blue
-          borderColor: 'rgba(173, 216, 230, 1)', // darker blue
-          fill: false // This makes the area under the line not filled
+          borderColor: '#9966FF',
+          pointBackgroundColor: '#9966FF',
+          pointBorderColor: '#9966FF',
+          fill: true,
+          fillOpacity: 1,
+          backgroundColor: (context: any) => createLinearGradient(context, '#9966FF', '#FF8787'),
+          lineTension: 0.2,
         }
       ]
     };
@@ -285,15 +335,15 @@ export default defineComponent({
         {
           label: 'Total Active Users',
           data: data.map((m: Metrics) => m.total_active_users),
-          backgroundColor: 'rgba(0, 0, 139, 0.2)', // dark blue with 20% opacity
+          // backgroundColor: 'rgba(0, 0, 139, 0.2)', // dark blue with 20% opacity
+          backgroundColor: (context: any) => createLinearGradient(context, '#5555FF', '#9787FF'),
           borderColor: 'rgba(255, 99, 132, 1)'
         }
       ]
     };
-    
+
     // Process the language breakdown separately
-    data.forEach((m: Metrics) => m.breakdown.forEach(breakdown => 
-    {
+    data.forEach((m: Metrics) => m.breakdown.forEach(breakdown => {
       const languageName = breakdown.language;
       let language = languages.get(languageName);
 
@@ -321,12 +371,14 @@ export default defineComponent({
       yield* [...this.entries()].sort((a, b) => b[1].acceptedLinesOfCode - a[1].acceptedLinesOfCode);
     }
 
-    return { totalSuggestionsAndAcceptanceChartData, chartData, 
-      chartOptions, totalActiveUsersChartData, 
-      totalActiveUsersChartOptions, acceptanceRateChartData, acceptanceRateAverage, cumulativeNumberSuggestions, 
-      cumulativeNumberAcceptances, cumulativeNumberLOCAccepted, languages };
+    return {
+      totalSuggestionsAndAcceptanceChartData, chartData,
+      chartOptions, totalActiveUsersChartData,
+      totalActiveUsersChartOptions, acceptanceRateChartData, acceptanceRateAverage, cumulativeNumberSuggestions,
+      cumulativeNumberAcceptances, cumulativeNumberLOCAccepted, languages
+    };
   },
-  
+
 });
 </script>
 
@@ -336,4 +388,4 @@ export default defineComponent({
   justify-content: flex-start;
   flex-wrap: wrap;
 }
-</style>
+</style>: { chart: any; }: any: any

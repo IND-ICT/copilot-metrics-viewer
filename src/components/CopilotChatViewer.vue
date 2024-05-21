@@ -1,27 +1,29 @@
 <template>
-    <div class="tiles-container">      
-        <v-card elevation="4" color="white" variant="elevated" class="mx-auto my-3" style="width: 300px; height: 175px;">
+    <div class="tiles-container">
+        <v-card elevation="4" color="white" variant="elevated" class="mx-auto my-3"
+            style="width: 300px; height: 175px;">
             <v-card-item>
                 <div>
-                <div class="text-overline mb-1" style="visibility: hidden;">filler</div>
-                <div class="text-h6 mb-1">Cumulative Number of Turns</div>
-                <div class="text-caption">
-                    Over the last 28 days
-                </div>
-                <p>{{ cumulativeNumberTurns }}</p>
+                    <div class="text-overline mb-1" style="visibility: hidden;">filler</div>
+                    <div class="text-h6 mb-1">Cumulative Number of Turns</div>
+                    <div class="text-caption">
+                        Over the last 28 days
+                    </div>
+                    <p>{{ cumulativeNumberTurns }}</p>
                 </div>
             </v-card-item>
         </v-card>
 
-        <v-card elevation="4" color="white" variant="elevated" class="mx-auto my-3" style="width: 300px; height: 175px;">
+        <v-card elevation="4" color="white" variant="elevated" class="mx-auto my-3"
+            style="width: 300px; height: 175px;">
             <v-card-item>
                 <div>
-                <div class="text-overline mb-1" style="visibility: hidden;">filler</div>
-                <div class="text-h6 mb-1">Cumulative Number of Acceptances</div>
-                <div class="text-caption">
-                    Over the last 28 days
-                </div>
-                <p>{{ cumulativeNumberAcceptances }}</p>
+                    <div class="text-overline mb-1" style="visibility: hidden;">filler</div>
+                    <div class="text-h6 mb-1">Cumulative Number of Acceptances</div>
+                    <div class="text-caption">
+                        Over the last 28 days
+                    </div>
+                    <p>{{ cumulativeNumberAcceptances }}</p>
                 </div>
             </v-card-item>
         </v-card>
@@ -39,151 +41,160 @@
         </v-container>
     </v-main>
 </template>
-  
+
 <script lang="ts">
-  import { defineComponent, ref, toRef } from 'vue';
-  import { Metrics } from '../model/Metrics';
-  import { Line, Bar } from 'vue-chartjs'
-  import {
-  Chart as ChartJS,
-  ArcElement,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
+import { defineComponent, ref, toRef } from 'vue';
+import { Metrics } from '../model/Metrics';
+import { Line, Bar } from 'vue-chartjs'
+import {
+    Chart as ChartJS,
+    ArcElement,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+    Filler
 } from 'chart.js'
 
 ChartJS.register(
-  ArcElement, 
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
+    ArcElement,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+    Filler
 )
 
+import createLinearGradient from '../plugins/chartUtils';
+
 export default defineComponent({
-name: 'CopilotChatViewer',
-props: {
+    name: 'CopilotChatViewer',
+    props: {
         metrics: {
             type: Object,
             required: true
         }
     },
-components: {
-Bar,
-Line
-},
-setup(props) {
-
-    let cumulativeNumberAcceptances = ref(0);
-
-    let cumulativeNumberTurns = ref(0);
-
-    //Total Copilot Chat Active Users
-    const totalActiveCopilotChatUsersChartData = ref<{ labels: string[]; datasets: any[] }>({ labels: [], datasets: [] });  
-
-    const totalActiveChatUsersChartOptions = {
-    responsive: true,
-    maintainAspectRatio: true,
-    scales: {
-        y: {
-        beginAtZero: true,
-        ticks: {
-            stepSize: 1
-        }
-        }
+    components: {
+        Bar,
+        Line
     },
-    layout: {
-        padding: {
-        left: 50,
-        right: 50,
-        top: 50,
-        bottom: 50
-        }
-    },
-    };
+    setup(props) {
 
-    const chartOptions = {
-        responsive: true,
-        maintainAspectRatio: true,
-        height: 300,
-        width: 300,
-        layout: {
-            padding: {
-            left: 150,
-            right: 150,
-            top: 20,
-            bottom: 40
-            }
-        },
-    };
+        let cumulativeNumberAcceptances = ref(0);
 
-    //Total Number Acceptances And Turns
-    const totalNumberAcceptancesAndTurnsChartData = ref<{ labels: string[]; datasets: any[] }>({ labels: [], datasets: [] });
+        let cumulativeNumberTurns = ref(0);
 
-    const data = toRef(props, 'metrics').value;
+        //Total Copilot Chat Active Users
+        const totalActiveCopilotChatUsersChartData = ref<{ labels: string[]; datasets: any[] }>({ labels: [], datasets: [] });
 
-    cumulativeNumberTurns.value = 0;
-    const cumulativeNumberTurnsData = data.map((m: Metrics)  => {        
-        cumulativeNumberTurns.value += m.total_chat_turns;
-        return m.total_chat_turns;
-    });
+        const totalActiveChatUsersChartOptions = {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            },
+            layout: {
+                padding: {
+                    left: 50,
+                    right: 50,
+                    top: 50,
+                    bottom: 50
+                }
+            },
+        };
 
-    cumulativeNumberAcceptances.value = 0;
-    const cumulativeNumberAcceptancesData = data.map((m: Metrics)  => {        
-        cumulativeNumberAcceptances.value += m.total_chat_acceptances;
-        return m.total_chat_acceptances;
-    });
+        const chartOptions = {
+            responsive: true,
+            maintainAspectRatio: true,
+            height: 300,
+            width: 300,
+            layout: {
+                padding: {
+                    left: 150,
+                    right: 150,
+                    top: 20,
+                    bottom: 40
+                }
+            },
+        };
 
-    totalNumberAcceptancesAndTurnsChartData.value = {
-    labels: data.map((m: Metrics)  => m.day),
-        datasets: [
-        {
-            label: 'Total Acceptances',
-            data: cumulativeNumberAcceptancesData,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)'
+        //Total Number Acceptances And Turns
+        const totalNumberAcceptancesAndTurnsChartData = ref<{ labels: string[]; datasets: any[] }>({ labels: [], datasets: [] });
 
-        },
-        {
-            label: 'Total Turns',
-            data: cumulativeNumberTurnsData,
-            backgroundColor: 'rgba(153, 102, 255, 0.2)',
-            borderColor: 'rgba(153, 102, 255, 1)'
-        }]
-    };
+        const data = toRef(props, 'metrics').value;
 
-    totalActiveCopilotChatUsersChartData.value = {
-        labels: data.map((m: Metrics) => m.day),
-        datasets: [
-        {
-            label: 'Total Active Copilot Chat Users',
-            data: data.map((m: Metrics) => m.total_active_chat_users),
-            backgroundColor: 'rgba(0, 0, 139, 0.2)', // dark blue with 20% opacity
-            borderColor: 'rgba(255, 99, 132, 1)'
-        }]
-    };
-    
-    return {  totalActiveCopilotChatUsersChartData, totalActiveChatUsersChartOptions,cumulativeNumberAcceptances, cumulativeNumberTurns, totalNumberAcceptancesAndTurnsChartData, chartOptions};
-}
+        cumulativeNumberTurns.value = 0;
+        const cumulativeNumberTurnsData = data.map((m: Metrics) => {
+            cumulativeNumberTurns.value += m.total_chat_turns;
+            return m.total_chat_turns;
+        });
+
+        cumulativeNumberAcceptances.value = 0;
+        const cumulativeNumberAcceptancesData = data.map((m: Metrics) => {
+            cumulativeNumberAcceptances.value += m.total_chat_acceptances;
+            return m.total_chat_acceptances;
+        });
+
+        totalNumberAcceptancesAndTurnsChartData.value = {
+            labels: data.map((m: Metrics) => m.day),
+            datasets: [
+                {
+                    label: 'Total Acceptances',
+                    data: cumulativeNumberAcceptancesData,
+                    fill: true,
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    lineTension: 0.2,
+                },
+                {
+                    label: 'Total Turns',
+                    data: cumulativeNumberTurnsData,
+                    fill: true,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    lineTension: 0.2,
+                }]
+        };
+
+        totalActiveCopilotChatUsersChartData.value = {
+            labels: data.map((m: Metrics) => m.day),
+            datasets: [
+                {
+                    label: 'Total Active Copilot Chat Users',
+                    data: data.map((m: Metrics) => m.total_active_chat_users),
+                    // backgroundColor: 'rgba(0, 0, 139, 0.2)', // dark blue with 20% opacity
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    fill: true,
+                    fillOpacity: 1,
+                    backgroundColor: (context: any) => createLinearGradient(context, '#9966FF', '#FF8787'),
+                    lineTension: 0.2,
+                }]
+        };
+
+        return { totalActiveCopilotChatUsersChartData, totalActiveChatUsersChartOptions, cumulativeNumberAcceptances, cumulativeNumberTurns, totalNumberAcceptancesAndTurnsChartData, chartOptions };
+    }
 });
 
 </script>
-  
+
 <style scoped>
-
 .tiles-container {
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
 }
-
 </style>
