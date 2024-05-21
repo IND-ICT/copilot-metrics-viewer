@@ -30,6 +30,7 @@
               <MetricsViewer v-if="item === itemName" :metrics="metrics" />
               <LanguagesBreakdown v-if="item === 'languages'" :metrics="metrics"/>   
               <CopilotChatViewer v-if="item === 'copilot chat'" :metrics="metrics" />
+              <AdoptionViewer v-if="item === 'adoption plan'" :metrics="metrics" />
               <ApiResponse v-if="item === 'api response'" :metrics="metrics" />
             </v-card>
           </v-window-item>
@@ -50,6 +51,7 @@ import MetricsViewer from './MetricsViewer.vue'
 import LanguagesBreakdown from './LanguagesBreakdown.vue' 
 import CopilotChatViewer from './CopilotChatViewer.vue' 
 import ApiResponse from './ApiResponse.vue'
+import AdoptionViewer from './AdoptionViewer.vue';
 
 export default defineComponent({
   name: 'MainComponent',
@@ -57,6 +59,7 @@ export default defineComponent({
     MetricsViewer,
     LanguagesBreakdown,
     CopilotChatViewer,
+    AdoptionViewer,
     ApiResponse
   },
   computed: {
@@ -77,7 +80,7 @@ export default defineComponent({
   },
   data () {
     return {
-      tabItems: ['languages', 'copilot chat', 'api response'],
+      tabItems: ['languages', 'copilot chat', 'adoption plan', 'api response'],
       tab: null
     }
   },
