@@ -139,19 +139,19 @@ export default defineComponent({
             { m: 'Dec', count: 400 },
         ];
 
-        const data_enel2 = [
-            { m: 'Jan', count: 200 },
-            { m: 'Feb', count: 200 },
-            { m: 'Mar', count: 200 },
-            { m: 'Apr', count: 200 },
-            { m: 'May', count: 300 },
-            { m: 'Jun', count: 350 },
-            { m: 'Jul', count: 350 },
-            { m: 'Aug', count: 450 },
-            { m: 'Sep', count: 450 },
-            { m: 'Oct', count: 650 },
-            { m: 'Nov', count: 750 },
-            { m: 'Dec', count: 850 },
+        const data_adoption_ict = [
+            { m: 'Jan', count: 120 },
+            { m: 'Feb', count: 120 },
+            { m: 'Mar', count: 120 },
+            { m: 'Apr', count: 88 },
+            { m: 'May', count: 88 },
+            { m: 'Jun', count: 95 },
+            { m: 'Jul', count: 116 },
+            { m: 'Aug', count: 180 },
+            { m: 'Sep', count: 200 },
+            { m: 'Oct', count: 200 },
+            { m: 'Nov', count: 200 },
+            { m: 'Dec', count: 200 },
         ];
 
         AdoptionChartData.value = {
@@ -159,6 +159,16 @@ export default defineComponent({
             datasets: [
                 {
                     label: 'IND Copilot Adoption by month (2024)',
+                    data: data_adoption_ict.map(row => row.count),
+                    fill: true,
+                    backgroundColor: (context: any) => createLinearGradient(context, '#2233FF', '#3344FF'),
+                    borderColor: 'transparent',
+                    pointBackgroundColor: '#FFFFFF',
+                    pointBorderColor: '#FFFFFF',
+                    lineTension: 0.2,
+                },
+                {
+                    label: 'IND Copilot Invitations by month (2024)',
                     data: data_ind.map(row => row.count),
                     fill: true,
                     backgroundColor: (context: any) => createLinearGradient(context, '#5555FF', '#9787FF'),
@@ -168,7 +178,7 @@ export default defineComponent({
                     lineTension: 0.2,
                 },
                 {
-                    label: 'Enel Copilot Adoption by month (2024)',
+                    label: 'Enel Copilot Invitations by month (2024)',
                     data: data_enel.map(row => row.count),
                     fill: true,
                     backgroundColor: (context: any) => createLinearGradient(context, '#FF55B8', '#FF8787'),
