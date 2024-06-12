@@ -19665,5 +19665,115 @@
     "total_chat_turns": 373,
     "total_active_chat_users": 33,
     "breakdown": []
+  },
+  {
+    "day": "2024-06-06",
+    "total_suggestions_count": 0,
+    "total_acceptances_count": 0,
+    "total_lines_suggested": 0,
+    "total_lines_accepted": 0,
+    "total_active_users": 0,
+    "total_chat_acceptances": 108,
+    "total_chat_turns": 381,
+    "total_active_chat_users": 29,
+    "breakdown": []
+  },
+  {
+    "day": "2024-06-07",
+    "total_suggestions_count": 2437,
+    "total_acceptances_count": 709,
+    "total_lines_suggested": 4188,
+    "total_lines_accepted": 1012,
+    "total_active_users": 42,
+    "total_chat_acceptances": 67,
+    "total_chat_turns": 283,
+    "total_active_chat_users": 29,
+    "breakdown": []
+  },
+  {
+    "day": "2024-06-08",
+    "total_suggestions_count": 256,
+    "total_acceptances_count": 125,
+    "total_lines_suggested": 514,
+    "total_lines_accepted": 256,
+    "total_active_users": 3,
+    "total_chat_acceptances": 8,
+    "total_chat_turns": 12,
+    "total_active_chat_users": 2,
+    "breakdown": [
+      {
+        "language": "dart",
+        "editor": "vscode",
+        "suggestions_count": 151,
+        "acceptances_count": 91,
+        "lines_suggested": 344,
+        "lines_accepted": 197,
+        "active_users": 2
+      },
+      {
+        "language": "java",
+        "editor": "jetbrains",
+        "suggestions_count": 105,
+        "acceptances_count": 34,
+        "lines_suggested": 170,
+        "lines_accepted": 59,
+        "active_users": 2
+      }
+    ]
+  },
+  {
+    "day": "2024-06-09",
+    "total_suggestions_count": 7,
+    "total_acceptances_count": 0,
+    "total_lines_suggested": 9,
+    "total_lines_accepted": 0,
+    "total_active_users": 1,
+    "total_chat_acceptances": 0,
+    "total_chat_turns": 1,
+    "total_active_chat_users": 1,
+    "breakdown": [
+      {
+        "language": "hcl",
+        "editor": "vscode",
+        "suggestions_count": 4,
+        "acceptances_count": 0,
+        "lines_suggested": 6,
+        "lines_accepted": 0,
+        "active_users": 1
+      },
+      {
+        "language": "json",
+        "editor": "vscode",
+        "suggestions_count": 3,
+        "acceptances_count": 0,
+        "lines_suggested": 3,
+        "lines_accepted": 0,
+        "active_users": 1
+      }
+    ]
+  },
+  {
+    "day": "2024-06-10",
+    "total_suggestions_count": 0,
+    "total_acceptances_count": 0,
+    "total_lines_suggested": 0,
+    "total_lines_accepted": 0,
+    "total_active_users": 0,
+    "total_chat_acceptances": 80,
+    "total_chat_turns": 316,
+    "total_active_chat_users": 27,
+    "breakdown": []
+  },
+  {
+    "day": "2024-06-11",
+    "total_suggestions_count": 2873,
+    "total_acceptances_count": 974,
+    "total_lines_suggested": 5116,
+    "total_lines_accepted": 1310,
+    "total_active_users": 50,
+    "total_chat_acceptances": 85,
+    "total_chat_turns": 281,
+    "total_active_chat_users": 31,
+    "breakdown": []
   }
 ]
